@@ -45,15 +45,16 @@ const GABARITO_RESERVATIONS = `
 ## Módulo Reservations (ReservationsModule)
 
 ### Comportamentos esperados:
-- Criar reserva: POST /reservations com eventId no body.
-- Apenas BUYER (role 0) pode criar reservas.
+- Criar reserva: POST /reservations com eventId no body (ou via rota parametrizada).
+- Qualquer usuário autenticado pode criar reservas (não exige role específica).
 - Uma reserva por usuário por evento (UNIQUE constraint ativa).
 - Reservar decrementa remaining_seats atomicamente (dentro de transação).
 - Se remaining_seats = 0, rejeita com erro (sold out).
 - Bloqueia reserva se evento já passou (start_date < now).
 - Bloqueia reserva se evento está cancelado.
-- Cancelar reserva própria: PATCH /reservations/:id/cancel (ou similar).
+- Cancelar reserva própria: PATCH ou DELETE /reservations/:id (ou similar).
 - Cancelar reserva retorna +1 ao remaining_seats do evento (atomicamente).
+- O método de cancelamento pode retornar void ou dados da reserva cancelada (ambos são aceitáveis).
 - Não pode cancelar reserva que já está cancelled.
 - Não pode cancelar reserva de outro usuário.
 - Histórico de reservas do usuário: GET /reservations (ou /reservations/history).
@@ -330,7 +331,6 @@ ${blocosDetalhe}
 ${testResumo}
 
 ---
-> Avaliação gerada por IA com base no gabarito do projeto. Use como orientação.`;
 
 writeFileSync('review.md', review, 'utf8');
 console.log(`Avaliação concluída. Nota final: ${notaFinal.toFixed(1)}/10`);
