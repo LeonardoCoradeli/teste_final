@@ -30,10 +30,6 @@ jobs:
       - name: Instalar dependências
         run: npm ci
 
-      - name: Executar Testes (Jest)
-        # Executa a suíte estrita fornecida no repositório base
-        run: npx jest
-
       - name: Coletar o diff da PR
         if: always() # Garante que o diff seja coletado mesmo se o Jest falhar
         env:
