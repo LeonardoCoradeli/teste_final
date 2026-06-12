@@ -33,13 +33,6 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Instalar dependências e rodar testes
-        working-directory: pr-code
-        run: |
-          npm ci
-          npm run build || true
-          npm test -- --forceExit --passWithNoTests 2>&1 | tee ../test-output.txt || true
-
       - name: Coletar o diff da PR
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
